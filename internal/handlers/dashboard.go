@@ -18,8 +18,14 @@ func NewDashboardHandler(dashboardService ports.DashboardService) *DashboardHand
 func (h *DashboardHandler) GetDashboardData(g *gin.Context) {
 	ctx := g.Request.Context()
 	userId := g.GetInt64("userId")
-	start := g.Query("start")
-	end := g.Query("end")
+	start := g.Query("start_at")
+	end := g.Query("end_at")
+	if start == "" {
+		start = time.Now().AddDate(0, 0, -7).Format(time.DateOnly)
+	}
+	if end == "" {
+		end = time.Now().AddDate(0,0,1).Format(time.DateOnly)
+	}
 	startTime, err := time.Parse(time.DateOnly, start)
 	if err != nil {
 		g.JSON(400, gin.H{"error": "Invalid start date format"})

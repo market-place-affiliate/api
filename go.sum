@@ -70,6 +70,8 @@ github.com/market-place-affiliate/commonlib v1.0.7 h1:0Me73S08zLHIzL5v4mrjg2D1iS
 github.com/market-place-affiliate/commonlib v1.0.7/go.mod h1:ULfDQVb5BqcwT7Xei1Vh+J5pxebg2xulT9/JvehBVnU=
 github.com/market-place-affiliate/commonlib v1.0.8 h1:3yXJPlu00O885bOILX4yV/AL5xgA1eWQGovUw7QqDKI=
 github.com/market-place-affiliate/commonlib v1.0.8/go.mod h1:ULfDQVb5BqcwT7Xei1Vh+J5pxebg2xulT9/JvehBVnU=
+github.com/market-place-affiliate/commonlib v1.0.9 h1:xWPoYJF44tTaQqRkvOcsCv1o4+aNFTBvIv/9etWsXn0=
+github.com/market-place-affiliate/commonlib v1.0.9/go.mod h1:ULfDQVb5BqcwT7Xei1Vh+J5pxebg2xulT9/JvehBVnU=
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 h1:ZqeYNhU3OHLH3mGKHDcjJRFFRrJa6eAM5H+CtDdOsPc=

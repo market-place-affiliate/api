@@ -28,12 +28,16 @@ type ProductService interface {
 type CampaignService interface {
 	CreateCampaign(ctx context.Context, userId int64, campaign dto.CreateCampaignRequest) (dto.Response[domains.Campaign], error)
 	GetCampaignByQuery(ctx context.Context, userId int64, query dto.GetCampaignByQueryRequest) (dto.Response[[]domains.Campaign], error)
+	DeleteCampaignById(ctx context.Context, userId int64, campaignId string) (dto.Response[any], error)
 }
 
 type LinkService interface {
 	CreateLink(ctx context.Context, userId int64, link dto.CreateLinkRequest) (dto.Response[domains.Link], error)
 	GetLinkByCampaign(ctx context.Context, campaignId string) (dto.Response[[]domains.Link], error)
 	ClickByShortCode(ctx context.Context, shortCode string) (dto.Response[domains.Link], error)
+	DeleteLinkById(ctx context.Context, userId int64, linkId string) (dto.Response[any], error)
+	GetLinkById(ctx context.Context, linkId string) (dto.Response[domains.Link], error)
+	GetLinkByShortCode(ctx context.Context, shortCode string) (dto.Response[domains.Link], error)
 }
 
 type DashboardService interface {

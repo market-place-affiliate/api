@@ -48,3 +48,19 @@ func (h *CampaignHandler) GetCampaigns(g *gin.Context) {
 	}
 	g.JSON(http.StatusOK, res)
 }
+
+func (h *CampaignHandler) DeleteCampaign(g *gin.Context) {
+	ctx := g.Request.Context()
+	userId := g.GetInt64("userId")
+	campaignId := g.Param("campaign_id")
+	if campaignId == "" {
+		g.AbortWithStatus(400)
+		return
+	}
+	res, err := h.campaignService.DeleteCampaignById(ctx, userId, campaignId)
+	if err != nil {
+		g.JSON(res.HttpCode, res)
+		return
+	}
+	g.JSON(http.StatusOK, res)
+}

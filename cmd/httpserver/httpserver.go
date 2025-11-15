@@ -60,10 +60,15 @@ func NewHttpServer(
 	v1CampaignGroup.Use(userHandler.VerifyAndGetUserId)
 	v1CampaignGroup.POST("", campaignHandler.CreateCampaign)
 	v1CampaignGroup.GET("", campaignHandler.GetCampaigns)
+	v1CampaignGroup.DELETE("/:campaign_id", campaignHandler.DeleteCampaign)
 
 	v1LinkGroup := apiV1.Group("link")
-	v1LinkGroup.POST("/", userHandler.VerifyAndGetUserId, linkHandler.CreateLink)
+	v1LinkGroup.POST("", userHandler.VerifyAndGetUserId, linkHandler.CreateLink)
 	v1LinkGroup.GET("/campaign/:campaignId", userHandler.VerifyAndGetUserId, linkHandler.GetLinksByCampaign)
+	v1LinkGroup.DELETE("/:link_id", userHandler.VerifyAndGetUserId, linkHandler.DeleteLink)
+	v1LinkGroup.GET("/:link_id", linkHandler.GetLinkById)
+	v1LinkGroup.GET("/short-code/:short_code", linkHandler.GetLinkByShortCode)
+	v1LinkGroup.GET("/redirect/:short_code", linkHandler.RedirectLink)
 
 	v1DashboardGroup := apiV1.Group("dashboard")
 	v1DashboardGroup.GET("/metrics", userHandler.VerifyAndGetUserId, dashboardHandler.GetDashboardData)

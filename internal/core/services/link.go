@@ -7,7 +7,7 @@ import (
 	"github.com/market-place-affiliate/api/internal/core/domains"
 	"github.com/market-place-affiliate/api/internal/core/dto"
 	"github.com/market-place-affiliate/api/internal/core/ports"
-	"github.com/market-place-affiliate/api/pkg/uniqe"
+	"github.com/market-place-affiliate/api/pkg/random"
 	"github.com/market-place-affiliate/commonlib/lazada"
 	"github.com/market-place-affiliate/commonlib/shopee"
 )
@@ -76,9 +76,19 @@ func (s *linkService) CreateLink(ctx context.Context, userId int64, link dto.Cre
 		}, err
 	}
 
+	minByte := 4
+	newShortCode := random.RandStringBytes(minByte)
+	_, err = s.linkRepo.GetLinkByShortCode(ctx, newShortCode)
+	for err == nil {
+		minByte++
+		newShortCode = random.RandStringBytes(minByte)
+		_, err = s.linkRepo.GetLinkByShortCode(ctx, newShortCode)
+	}
+
 	newLink := domains.Link{
-		ProductId: link.ProductId,
-		ShortCode: uniqe.UUID(),
+		ProductId:  link.ProductId,
+		CampaignId: link.CampaignId,
+		ShortCode:  newShortCode,
 	}
 
 	switch offer.Marketplace {
@@ -197,5 +207,99 @@ func (s *linkService) GetLinkByCampaign(ctx context.Context, campaignId string) 
 		Success:  true,
 		Code:     0,
 		Data:     links,
+	}, nil
+}
+
+func (s *linkService) DeleteLinkById(ctx context.Context, userId int64, linkId string) (dto.Response[any], error) {
+	link, err := s.linkRepo.GetLinkById(ctx, linkId)
+	if err != nil {
+		return dto.Response[any]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     5001,
+			Message:  "Failed to fetch link",
+		}, err
+	}
+
+	product, err := s.productRepo.GetProductById(ctx, link.ProductId.String())
+	if err != nil {
+		return dto.Response[any]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     5002,
+			Message:  "Failed to fetch product for the link",
+		}, err
+	}
+
+	if product.UserId != userId {
+		return dto.Response[any]{
+			HttpCode: http.StatusForbidden,
+			Success:  false,
+			Code:     5003,
+			Message:  "You do not have permission to delete this link",
+		}, nil
+	}
+
+	err = s.clickRepo.DeleteClicksByLinkId(ctx, linkId)
+	if err != nil {
+		return dto.Response[any]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     5004,
+			Message:  "Failed to delete clicks for the link",
+		}, err
+	}
+
+	err = s.linkRepo.DeleteLink(ctx, linkId)
+	if err != nil {
+		return dto.Response[any]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     5005,
+			Message:  "Failed to delete the link",
+		}, err
+	}
+
+	return dto.Response[any]{
+		HttpCode: http.StatusOK,
+		Success:  true,
+		Code:     0,
+		Message:  "Link deleted successfully",
+	}, nil
+}
+
+func (s *linkService) GetLinkById(ctx context.Context, linkId string) (dto.Response[domains.Link], error) {
+	link, err := s.linkRepo.GetLinkById(ctx, linkId)
+	if err != nil {
+		return dto.Response[domains.Link]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     6001,
+			Message:  "Failed to fetch link",
+		}, err
+	}
+	return dto.Response[domains.Link]{
+		HttpCode: http.StatusOK,
+		Success:  true,
+		Code:     0,
+		Data:     link,
+	}, nil
+}
+
+func (s *linkService) GetLinkByShortCode(ctx context.Context, shortCode string) (dto.Response[domains.Link], error) {
+	link, err := s.linkRepo.GetLinkByShortCode(ctx, shortCode)
+	if err != nil {
+		return dto.Response[domains.Link]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     6001,
+			Message:  "Failed to fetch link",
+		}, err
+	}
+	return dto.Response[domains.Link]{
+		HttpCode: http.StatusOK,
+		Success:  true,
+		Code:     0,
+		Data:     link,
 	}, nil
 }

@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/gofrs/uuid v4.4.0+incompatible
-	github.com/market-place-affiliate/commonlib v1.0.8
+	github.com/market-place-affiliate/commonlib v1.0.9
 	gorm.io/gorm v1.31.1
 )
 
