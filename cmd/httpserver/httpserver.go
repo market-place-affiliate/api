@@ -58,8 +58,8 @@ func NewHttpServer(
 
 	v1CampaignGroup := apiV1.Group("campaign")
 	v1CampaignGroup.Use(userHandler.VerifyAndGetUserId)
-	v1CampaignGroup.POST("/", campaignHandler.CreateCampaign)
-	v1CampaignGroup.GET("/", campaignHandler.GetCampaigns)
+	v1CampaignGroup.POST("", campaignHandler.CreateCampaign)
+	v1CampaignGroup.GET("", campaignHandler.GetCampaigns)
 
 	v1LinkGroup := apiV1.Group("link")
 	v1LinkGroup.POST("/", userHandler.VerifyAndGetUserId, linkHandler.CreateLink)
