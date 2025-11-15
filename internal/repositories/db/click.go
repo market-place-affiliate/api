@@ -28,7 +28,7 @@ func (r *clickRepository) SaveClick(ctx context.Context, click domains.Click) er
 }
 func (r *clickRepository) CountClicksByDateRange(ctx context.Context, userId int64, startDate, endDate time.Time) ([]dto.MetrictItem, error) {
 	var results []dto.MetrictItem
-	err := r.DB.Debug().Raw(`
+	err := r.DB.Raw(`
 	select 
 	date(clicks.created_at) as date, 
 	count(*) as click_count,
