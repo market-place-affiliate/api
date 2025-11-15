@@ -25,7 +25,7 @@ type CreateCampaignRequest struct {
 	Name        string    `json:"name" binding:"required,min=3,max=100"`
 	UtmCampaign string    `json:"utm_campaign" binding:"required,min=3,max=100"`
 	StartAt     time.Time `json:"start_at" binding:"required"`
-	EndAt       time.Time `json:"end_at" binding:"required,gtfield=StartAt"`
+	EndAt       time.Time `json:"end_at" binding:"required,gtefield=StartAt"`
 }
 
 type CreateLinkRequest struct {
