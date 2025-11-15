@@ -1,0 +1,38 @@
+# Binaries
+main
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test files
+*_test.go
+*.out
+
+# Vendor (will be re-downloaded)
+vendor/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Documentation (except Swagger which will be regenerated)
+*.md
+!SWAGGER.md
+
+# Env files
+.env
+.env.local
+
+# Temp files
+tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db

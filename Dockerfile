@@ -20,6 +20,12 @@ RUN apk update
 # for kafka
 RUN apk add librdkafka-dev gcc libc-dev make
 
+# Install swag for Swagger documentation
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+
+# Generate Swagger documentation
+RUN /root/go/bin/swag init -g cmd/main.go -o docs
+
 RUN make ci && make build
 
 FROM alpine:latest AS release
@@ -28,6 +34,7 @@ FROM alpine:latest AS release
 RUN apk add --no-cache --update ca-certificates curl
 
 COPY --from=builder /app/main /app/cmd/
+COPY --from=builder /app/docs /app/docs/
 
 RUN chmod +x /app/cmd/main
 

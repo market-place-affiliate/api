@@ -17,7 +17,28 @@ import (
 	"github.com/market-place-affiliate/api/internal/repositories/db"
 	"github.com/market-place-affiliate/commonlib/lazada"
 	"github.com/market-place-affiliate/commonlib/shopee"
+
+	_ "github.com/market-place-affiliate/api/docs" // Swagger docs
 )
+
+// @title Market Place Affiliate API
+// @version 1.0
+// @description API for managing marketplace affiliate links (Lazada, Shopee)
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.email support@example.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /api/v1
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 
 func main() {
 	cfg := config.Init()
@@ -34,12 +55,12 @@ func main() {
 	marketplaceCredentialRepository := db.NewMarketplaceCredentialRepository(postgresClient)
 	clickRepository := db.NewClickRepository(postgresClient)
 
-	lazadaRepository := lazada.NewLazadaRepository(lazada.ApiGatewayTH,true)
+	lazadaRepository := lazada.NewLazadaRepository(lazada.ApiGatewayTH, true)
 	shopeeRepository := shopee.NewShopeeRepository(true)
 
 	userService := services.NewUserService(string(cfg.Secret.PasswordSecret), string(cfg.Secret.JWTSecret), userRepository, marketplaceCredentialRepository)
-	productService := services.NewProductService(productRepository, offerRepository, lazadaRepository, shopeeRepository, marketplaceCredentialRepository,linkRepository,clickRepository)
-	campaignService := services.NewCampaignService(campaignRepository,linkRepository,clickRepository)
+	productService := services.NewProductService(productRepository, offerRepository, lazadaRepository, shopeeRepository, marketplaceCredentialRepository, linkRepository, clickRepository)
+	campaignService := services.NewCampaignService(campaignRepository, linkRepository, clickRepository)
 	linkService := services.NewLinkService(linkRepository, clickRepository, productRepository, campaignRepository, offerRepository, lazadaRepository, shopeeRepository, marketplaceCredentialRepository)
 	dashboardService := services.NewDashboardService(clickRepository, productRepository)
 

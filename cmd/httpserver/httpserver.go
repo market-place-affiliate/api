@@ -3,6 +3,8 @@ package httpserver
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/market-place-affiliate/api/internal/handlers"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewHttpServer(
@@ -36,6 +38,9 @@ func NewHttpServer(
 		c.JSON(200, gin.H{"status": "ok"})
 	})
 
+	// Swagger documentation
+	g.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	g.GET("/go/:short_code", linkHandler.RedirectLink)
 
 	api := g.Group("/api")
@@ -50,7 +55,7 @@ func NewHttpServer(
 	v1UserGroup.DELETE("/market-credential/:platform", userHandler.VerifyAndGetUserId, userHandler.DeleteMarketplaceCredential)
 
 	v1ProductGroup := apiV1.Group("product")
-	v1ProductGroup.GET("/:productId",productHandler.GetProductById)
+	v1ProductGroup.GET("/:productId", productHandler.GetProductById)
 	v1ProductGroup.Use(userHandler.VerifyAndGetUserId)
 	v1ProductGroup.POST("", productHandler.AddProduct)
 	v1ProductGroup.GET("", productHandler.GetProducts)
@@ -58,7 +63,7 @@ func NewHttpServer(
 	v1ProductGroup.DELETE("/:productId", productHandler.DeleteProduct)
 
 	v1CampaignGroup := apiV1.Group("campaign")
-	v1CampaignGroup.GET("/available",campaignHandler.GetPublicCampaigns)
+	v1CampaignGroup.GET("/available", campaignHandler.GetPublicCampaigns)
 	v1CampaignGroup.Use(userHandler.VerifyAndGetUserId)
 	v1CampaignGroup.POST("", campaignHandler.CreateCampaign)
 	v1CampaignGroup.GET("", campaignHandler.GetCampaigns)

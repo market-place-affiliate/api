@@ -16,6 +16,18 @@ func NewCampaignHandler(campaignService ports.CampaignService) *CampaignHandler 
 	return &CampaignHandler{campaignService: campaignService}
 }
 
+// CreateCampaign godoc
+// @Summary Create a new campaign
+// @Description Create a new marketing campaign
+// @Tags campaign
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param body body dto.CreateCampaignRequest true "Campaign request"
+// @Success 200 {object} dto.CampaignResponse
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /campaign [post]
 func (h *CampaignHandler) CreateCampaign(g *gin.Context) {
 	ctx := g.Request.Context()
 	body := dto.CreateCampaignRequest{}
@@ -33,6 +45,17 @@ func (h *CampaignHandler) CreateCampaign(g *gin.Context) {
 	g.JSON(http.StatusOK, res)
 }
 
+// GetCampaigns godoc
+// @Summary Get user campaigns
+// @Description Get all campaigns for the authenticated user with optional filters
+// @Tags campaign
+// @Produce json
+// @Security BearerAuth
+// @Param utm_campaign query string false "UTM campaign filter"
+// @Success 200 {object} dto.CampaignsResponse
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /campaign [get]
 func (h *CampaignHandler) GetCampaigns(g *gin.Context) {
 	ctx := g.Request.Context()
 	userId := g.GetInt64("userId")
@@ -49,6 +72,18 @@ func (h *CampaignHandler) GetCampaigns(g *gin.Context) {
 	g.JSON(http.StatusOK, res)
 }
 
+// DeleteCampaign godoc
+// @Summary Delete campaign
+// @Description Delete a campaign and all associated links and clicks
+// @Tags campaign
+// @Produce json
+// @Security BearerAuth
+// @Param campaign_id path string true "Campaign ID"
+// @Success 200 {object} dto.EmptyResponse
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 403 {object} dto.EmptyResponse "Forbidden"
+// @Router /campaign/{campaign_id} [delete]
 func (h *CampaignHandler) DeleteCampaign(g *gin.Context) {
 	ctx := g.Request.Context()
 	userId := g.GetInt64("userId")
@@ -65,6 +100,15 @@ func (h *CampaignHandler) DeleteCampaign(g *gin.Context) {
 	g.JSON(http.StatusOK, res)
 }
 
+// GetPublicCampaigns godoc
+// @Summary Get public campaigns
+// @Description Get all public campaigns available for everyone
+// @Tags campaign
+// @Produce json
+// @Param utm_campaign query string false "UTM campaign filter"
+// @Success 200 {object} dto.CampaignsResponse
+// @Failure 400 {string} string "Bad Request"
+// @Router /campaign/available [get]
 func (h *CampaignHandler) GetPublicCampaigns(g *gin.Context) {
 	ctx := g.Request.Context()
 	body := dto.GetCampaignByQueryRequest{}

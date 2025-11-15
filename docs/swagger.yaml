@@ -1,0 +1,1039 @@
+basePath: /api/v1
+definitions:
+  domains.Campaign:
+    properties:
+      created_at:
+        type: string
+      end_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      start_at:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+      utm_campaign:
+        type: string
+    type: object
+  domains.Link:
+    properties:
+      campaignId:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      productId:
+        type: string
+      short_code:
+        type: string
+      target_url:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  domains.Offer:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      last_checked_at:
+        type: string
+      marketplace:
+        type: string
+      price:
+        type: number
+      productId:
+        type: string
+      store_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  domains.Product:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      source_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  domains.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.BoolResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        example: true
+        type: boolean
+      message:
+        example: Operation successful
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.CampaignResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/domains.Campaign'
+      message:
+        example: Campaign created successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.CampaignsResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/domains.Campaign'
+        type: array
+      message:
+        example: Campaigns retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.CreateCampaignRequest:
+    properties:
+      end_at:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      start_at:
+        type: string
+      utm_campaign:
+        maxLength: 100
+        minLength: 3
+        type: string
+    required:
+    - end_at
+    - name
+    - start_at
+    - utm_campaign
+    type: object
+  dto.CreateLinkRequest:
+    properties:
+      campaign_id:
+        type: string
+      product_id:
+        type: string
+    required:
+    - campaign_id
+    - product_id
+    type: object
+  dto.CreateProductRequest:
+    properties:
+      marketplace:
+        enum:
+        - shopee
+        - lazada
+        type: string
+      source_url:
+        type: string
+    required:
+    - marketplace
+    - source_url
+    type: object
+  dto.DashboardMetricsResponse:
+    properties:
+      metrics:
+        items:
+          $ref: '#/definitions/dto.MetrictItem'
+        type: array
+      top_product:
+        $ref: '#/definitions/dto.TopProduct'
+    type: object
+  dto.DashboardResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/dto.DashboardMetricsResponse'
+      message:
+        example: Metrics retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.EmptyResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      message:
+        example: Operation successful
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.LinkResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/domains.Link'
+      message:
+        example: Link created successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.LinksResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/domains.Link'
+        type: array
+      message:
+        example: Links retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 100
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.MarketplaceCredentialRequest:
+    properties:
+      app_id:
+        type: string
+      app_key:
+        type: string
+      app_secret:
+        type: string
+      platform:
+        enum:
+        - shopee
+        - lazada
+        type: string
+      sign_method:
+        type: string
+      user_token:
+        type: string
+    required:
+    - platform
+    type: object
+  dto.MetrictItem:
+    properties:
+      campaign:
+        type: string
+      campaign_name:
+        type: string
+      click_count:
+        type: integer
+      date:
+        type: string
+      marketplace:
+        type: string
+    type: object
+  dto.OfferResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/domains.Offer'
+      message:
+        example: Offer retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.ProductResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/domains.Product'
+      message:
+        example: Product retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.ProductsResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/domains.Product'
+        type: array
+      message:
+        example: Products retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 100
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.StringResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        example: data_value
+        type: string
+      message:
+        example: Operation successful
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+  dto.TopProduct:
+    properties:
+      clicks:
+        type: integer
+      product:
+        $ref: '#/definitions/domains.Product'
+    type: object
+  dto.UserResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/domains.User'
+      message:
+        example: User retrieved successfully
+        type: string
+      success:
+        example: true
+        type: boolean
+      txn_id:
+        example: txn_123456
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@example.com
+    name: API Support
+  description: API for managing marketplace affiliate links (Lazada, Shopee)
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Market Place Affiliate API
+  version: "1.0"
+paths:
+  /campaign:
+    get:
+      description: Get all campaigns for the authenticated user with optional filters
+      parameters:
+      - description: UTM campaign filter
+        in: query
+        name: utm_campaign
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CampaignsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user campaigns
+      tags:
+      - campaign
+    post:
+      consumes:
+      - application/json
+      description: Create a new marketing campaign
+      parameters:
+      - description: Campaign request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCampaignRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CampaignResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create a new campaign
+      tags:
+      - campaign
+  /campaign/{campaign_id}:
+    delete:
+      description: Delete a campaign and all associated links and clicks
+      parameters:
+      - description: Campaign ID
+        in: path
+        name: campaign_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete campaign
+      tags:
+      - campaign
+  /campaign/available:
+    get:
+      description: Get all public campaigns available for everyone
+      parameters:
+      - description: UTM campaign filter
+        in: query
+        name: utm_campaign
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CampaignsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get public campaigns
+      tags:
+      - campaign
+  /dashboard/metrics:
+    get:
+      description: Get dashboard analytics including clicks, products, and performance
+        metrics
+      parameters:
+      - default: '"7 days ago"'
+        description: Start date (YYYY-MM-DD)
+        in: query
+        name: start_at
+        type: string
+      - default: '"tomorrow"'
+        description: End date (YYYY-MM-DD)
+        in: query
+        name: end_at
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DashboardResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get dashboard metrics
+      tags:
+      - dashboard
+  /link:
+    post:
+      consumes:
+      - application/json
+      description: Create a new affiliate link for a product and campaign
+      parameters:
+      - description: Link request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateLinkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LinkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      security:
+      - BearerAuth: []
+      summary: Create affiliate link
+      tags:
+      - link
+  /link/{link_id}:
+    delete:
+      description: Delete a link and all associated clicks
+      parameters:
+      - description: Link ID
+        in: path
+        name: link_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete link
+      tags:
+      - link
+    get:
+      description: Get a specific link by its ID
+      parameters:
+      - description: Link ID
+        in: path
+        name: link_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LinkResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      summary: Get link by ID
+      tags:
+      - link
+  /link/campaign/{campaignId}:
+    get:
+      description: Get all links associated with a campaign
+      parameters:
+      - description: Campaign ID
+        in: path
+        name: campaignId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LinksResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      summary: Get links by campaign
+      tags:
+      - link
+  /link/redirect/{short_code}:
+    get:
+      description: Track click and redirect to the marketplace affiliate link
+      parameters:
+      - description: Short code
+        in: path
+        name: short_code
+        required: true
+        type: string
+      responses:
+        "302":
+          description: Redirect to affiliate URL
+          schema:
+            type: string
+      summary: Redirect to affiliate link
+      tags:
+      - link
+  /link/short-code/{short_code}:
+    get:
+      description: Get a link by its short code
+      parameters:
+      - description: Short code
+        in: path
+        name: short_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LinkResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      summary: Get link by short code
+      tags:
+      - link
+  /product:
+    get:
+      description: Get all products for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductsResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get user products
+      tags:
+      - product
+    post:
+      consumes:
+      - application/json
+      description: Create a new affiliate product from marketplace URL
+      parameters:
+      - description: Product request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Add a new product
+      tags:
+      - product
+  /product/{productId}:
+    delete:
+      description: Delete a product and all associated links and clicks
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete product
+      tags:
+      - product
+    get:
+      description: Get a specific product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      summary: Get product by ID
+      tags:
+      - product
+  /product/{productId}/offer:
+    get:
+      description: Get marketplace offers for a specific product
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.OfferResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      security:
+      - BearerAuth: []
+      summary: Get product offers
+      tags:
+      - product
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return session token
+      parameters:
+      - description: Login request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.StringResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      summary: Login user
+      tags:
+      - user
+  /user/logout:
+    post:
+      description: Clear session cookie
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Logout user
+      tags:
+      - user
+  /user/market-credential:
+    post:
+      consumes:
+      - application/json
+      description: Save or update marketplace API credentials (Lazada/Shopee)
+      parameters:
+      - description: Marketplace credential
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.MarketplaceCredentialRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Save marketplace credentials
+      tags:
+      - user
+  /user/market-credential/{platform}:
+    delete:
+      description: Delete stored marketplace credentials for a platform
+      parameters:
+      - description: Platform name (lazada/shopee)
+        in: path
+        name: platform
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete marketplace credentials
+      tags:
+      - user
+    get:
+      description: Check if marketplace credentials exist for a platform
+      parameters:
+      - description: Platform name (lazada/shopee)
+        in: path
+        name: platform
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BoolResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Check marketplace credentials
+      tags:
+      - user
+  /user/me:
+    get:
+      description: Get authenticated user information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - user
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account
+      parameters:
+      - description: Register request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.StringResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.EmptyResponse'
+      summary: Register a new user
+      tags:
+      - user
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

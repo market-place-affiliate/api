@@ -19,6 +19,10 @@ start:
 dev: 
 	nodemon --exec go run --tags dynamic $(shell pwd)/cmd/main.go --signal SIGTERM
 
+.PHONY: swagger
+swagger:
+	~/go/bin/swag init -g cmd/main.go -o docs
+
 .PHONY: clean
 clean:
 	@rm -rf main ./vendor
