@@ -64,7 +64,7 @@ func (r *campaignRepository) GetCampaignByQuery(ctx context.Context, userId int6
 func (r *campaignRepository) GetAvailableCampaign(ctx context.Context) ([]domains.Campaign, error) {
 	var campaigns []domains.Campaign
 	dbQuery := r.DB.Model(&domains.Campaign{})
-	dbQuery.Where("start_at <= ? AND end_at >= ?",  gorm.Expr("NOW()"), gorm.Expr("NOW()"))
+	dbQuery.Where("date(start_at) <= ? AND date(end_at) >= ?",  gorm.Expr("date(NOW())"), gorm.Expr("date(NOW())"))
 	err := dbQuery.Debug().Find(&campaigns).Error
 	if err != nil {
 		return nil, err
