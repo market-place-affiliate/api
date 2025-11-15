@@ -66,3 +66,14 @@ func (h *ProductHandler) DeleteProduct(g *gin.Context) {
 	}
 	g.JSON(http.StatusOK, res)
 }
+
+func (h *ProductHandler) GetProductById(g *gin.Context) {
+	ctx := g.Request.Context()
+	productId := g.Param("productId")
+	res, err := h.productService.GetProductById(ctx, productId)
+	if err != nil {
+		g.JSON(res.HttpCode, res)
+		return
+	}
+	g.JSON(http.StatusOK, res)
+}

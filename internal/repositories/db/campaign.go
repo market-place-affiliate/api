@@ -41,17 +41,31 @@ func (r *campaignRepository) GetCampaignById(ctx context.Context, campaignId str
 }
 func (r *campaignRepository) GetCampaignByQuery(ctx context.Context, userId int64, query dto.GetCampaignByQueryRequest) ([]domains.Campaign, error) {
 	var campaigns []domains.Campaign
-	dbQuery := r.DB.Model(&domains.Campaign{}).Where("user_id = ?", userId)
+	dbQuery := r.DB.Model(&domains.Campaign{})
+	if userId != 0 {
+		dbQuery = dbQuery.Where("user_id = ?", userId)
+	}
 	if query.Name != "" {
 		dbQuery = dbQuery.Where("name LIKE ?", "%"+query.Name+"%")
 	}
-	if query.StartAt.IsZero() == false {
+	if !query.StartAt.IsZero(){
 		dbQuery = dbQuery.Where("start_at >= ?", query.StartAt)
 	}
-	if query.EndAt.IsZero() == false {
+	if !query.EndAt.IsZero() {
 		dbQuery = dbQuery.Where("end_at <= ?", query.EndAt)
 	}
-	err := dbQuery.Find(&campaigns).Error
+	err := dbQuery.Debug().Find(&campaigns).Error
+	if err != nil {
+		return nil, err
+	}
+	return campaigns, nil
+}
+
+func (r *campaignRepository) GetAvailableCampaign(ctx context.Context) ([]domains.Campaign, error) {
+	var campaigns []domains.Campaign
+	dbQuery := r.DB.Model(&domains.Campaign{})
+	dbQuery.Where("start_at <= ? AND end_at >= ?",  gorm.Expr("NOW()"), gorm.Expr("NOW()"))
+	err := dbQuery.Debug().Find(&campaigns).Error
 	if err != nil {
 		return nil, err
 	}

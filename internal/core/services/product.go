@@ -363,3 +363,22 @@ func (s *productService) DeleteProductById(ctx context.Context, userId int64, pr
 		Message:  "Product deleted successfully",
 	}, nil
 }
+
+func (s *productService) GetProductById(ctx context.Context, productId string) (dto.Response[domains.Product], error) {
+	product, err := s.productRepo.GetProductById(ctx, productId)
+	if err != nil {
+		return dto.Response[domains.Product]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     2002,
+			Message:  "Failed to fetch product",
+		}, err
+	}
+	return dto.Response[domains.Product]{
+		HttpCode: http.StatusOK,
+		Success:  true,
+		Code:     0,
+		Message:  "Product fetched successfully",
+		Data:     product,
+	}, nil
+}

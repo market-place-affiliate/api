@@ -57,7 +57,6 @@ func (c *campaignService) GetCampaignByQuery(ctx context.Context, userId int64, 
 		Data:     campaigns,
 	}, nil
 }
-
 func (c *campaignService) DeleteCampaignById(ctx context.Context, userId int64, campaignId string) (dto.Response[any], error) {
 
 	campaign, err := c.campaignRepo.GetCampaignById(ctx, campaignId)
@@ -121,5 +120,21 @@ func (c *campaignService) DeleteCampaignById(ctx context.Context, userId int64, 
 		HttpCode: http.StatusOK,
 		Success:  true,
 		Code:     0,
+	}, nil
+}
+func (c *campaignService) GetPublicCampaigns(ctx context.Context, query dto.GetCampaignByQueryRequest) (dto.Response[[]domains.Campaign], error) {
+	campaigns, err := c.campaignRepo.GetAvailableCampaign(ctx)
+	if err != nil {
+		return dto.Response[[]domains.Campaign]{
+			HttpCode: http.StatusInternalServerError,
+			Success:  false,
+			Code:     3002,
+		}, err
+	}
+	return dto.Response[[]domains.Campaign]{
+		HttpCode: http.StatusOK,
+		Success:  true,
+		Code:     0,
+		Data:     campaigns,
 	}, nil
 }

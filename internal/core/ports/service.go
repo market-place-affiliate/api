@@ -23,12 +23,14 @@ type ProductService interface {
 	GetOffer(ctx context.Context, userId int64, productId string) (dto.Response[domains.Offer], error)
 	GetProductsByUserId(ctx context.Context, userId int64) (dto.Response[[]domains.Product], error)
 	DeleteProductById(ctx context.Context, userId int64, productId string) (dto.Response[any], error)
+	GetProductById(ctx context.Context, productId string) (dto.Response[domains.Product], error)
 }
 
 type CampaignService interface {
 	CreateCampaign(ctx context.Context, userId int64, campaign dto.CreateCampaignRequest) (dto.Response[domains.Campaign], error)
 	GetCampaignByQuery(ctx context.Context, userId int64, query dto.GetCampaignByQueryRequest) (dto.Response[[]domains.Campaign], error)
 	DeleteCampaignById(ctx context.Context, userId int64, campaignId string) (dto.Response[any], error)
+	GetPublicCampaigns(ctx context.Context, query dto.GetCampaignByQueryRequest) (dto.Response[[]domains.Campaign], error)
 }
 
 type LinkService interface {

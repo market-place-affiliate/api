@@ -64,3 +64,18 @@ func (h *CampaignHandler) DeleteCampaign(g *gin.Context) {
 	}
 	g.JSON(http.StatusOK, res)
 }
+
+func (h *CampaignHandler) GetPublicCampaigns(g *gin.Context) {
+	ctx := g.Request.Context()
+	body := dto.GetCampaignByQueryRequest{}
+	if err := g.ShouldBindQuery(&body); err != nil {
+		g.AbortWithStatus(400)
+		return
+	}
+	res, err := h.campaignService.GetPublicCampaigns(ctx, body)
+	if err != nil {
+		g.JSON(res.HttpCode, res)
+		return
+	}
+	g.JSON(http.StatusOK, res)
+}

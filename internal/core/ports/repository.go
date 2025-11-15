@@ -54,6 +54,7 @@ type CampaignRepository interface {
 	DeleteCampaign(ctx context.Context, campaignId string) error
 	GetCampaignById(ctx context.Context, campaignId string) (domains.Campaign, error)
 	GetCampaignByQuery(ctx context.Context, userId int64, query dto.GetCampaignByQueryRequest) ([]domains.Campaign, error)
+	GetAvailableCampaign(ctx context.Context) ([]domains.Campaign, error)
 }
 
 type MarketplaceRepository interface {
