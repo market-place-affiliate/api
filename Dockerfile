@@ -28,8 +28,6 @@ FROM alpine:latest AS release
 RUN apk add --no-cache --update ca-certificates curl
 
 COPY --from=builder /app/main /app/cmd/
-# COPY --from=builder /app/.env /app/
-COPY --from=builder /app/templates /app/templates/
 
 RUN chmod +x /app/cmd/main
 
