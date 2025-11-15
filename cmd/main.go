@@ -64,6 +64,7 @@ func main() {
 		Addr:    fmt.Sprintf("%s:%d", cfg.HTTPServer.Host, cfg.HTTPServer.Port),
 		Handler: httpServer,
 	}
+	log.Printf("Starting server at %s:%d\n", cfg.HTTPServer.Host, cfg.HTTPServer.Port)
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
