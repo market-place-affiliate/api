@@ -5,6 +5,9 @@ A RESTful API service for managing marketplace affiliate links from Lazada and S
 Base backend demo api : https://api-production-5a6a.up.railway.app
 Swagger : https://api-production-5a6a.up.railway.app/swagger/index.html
 
+![Simple archietecture](zdemo/Screenshot%202568-11-16%20at%2007.22.51.png)
+
+
 ## 🚀 Features
 
 - **User Management** - Registration, authentication, and profile management
