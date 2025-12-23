@@ -21,11 +21,12 @@ RUN apk update
 RUN apk add librdkafka-dev gcc libc-dev make
 
 # Install swag for Swagger documentation
+ENV GOPATH=/go
 RUN go install github.com/swaggo/swag/cmd/swag@latest
 
 # Add GOPATH/bin to PATH and generate Swagger documentation
 ENV PATH="/go/bin:${PATH}"
-RUN swag init -g cmd/main.go -o docs
+RUN /go/bin/swag init -g cmd/main.go -o docs
 
 RUN make ci && make build
 
