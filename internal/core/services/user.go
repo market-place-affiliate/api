@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/market-place-affiliate/api/internal/core/domains"
@@ -75,6 +76,7 @@ func (s *userService) Login(ctx context.Context, pwd, email string) (dto.Respons
 		}, nil
 	}
 	token := jwtPkg.GenerateToken(s.jwtSalt, fmt.Sprint(user.Id), "", "web", 60*24)
+	log.Println("token", token)
 	return dto.Response[string]{
 		HttpCode: http.StatusOK,
 		Success:  true,
